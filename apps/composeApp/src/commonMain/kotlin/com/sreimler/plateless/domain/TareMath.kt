@@ -7,8 +7,11 @@ package com.sreimler.plateless.domain
  * @return The net weight of the food in the container.
  */
 fun calculateNetWeight(tareWeight: Double, grossWeight: Double): Double {
-    // Check for invalid inputs
-    if (grossWeight < tareWeight || grossWeight < 0 || tareWeight < 0) throw DomainError.InvalidInputs
+    // Validate inputs
+    when {
+        grossWeight < 0 || tareWeight < 0 -> throw DomainError.NegativeWeight
+        grossWeight < tareWeight -> throw DomainError.GrossWeightLessThanTare
+    }
 
     return grossWeight - tareWeight
 }
@@ -20,8 +23,10 @@ fun calculateNetWeight(tareWeight: Double, grossWeight: Double): Double {
  * @return The net weight per serving.
  */
 fun calculateServingWeight(netWeight: Double, servings: Double): Double {
-    // Check for invalid inputs
-    if (servings <= 0) throw DomainError.InvalidInputs
+    // Validate inputs
+    when {
+        servings <= 0 -> throw DomainError.ZeroOrNegativeServings
+    }
 
     return netWeight / servings
 }

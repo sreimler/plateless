@@ -28,7 +28,7 @@ class TareMathTest {
         val tare = 400.0
         val gross = 200.0
         assertFailsWith(
-            exceptionClass = DomainError.InvalidInputs::class,
+            exceptionClass = DomainError.GrossWeightLessThanTare::class,
             block = { calculateNetWeight(tare, gross) }
         )
     }
@@ -38,15 +38,15 @@ class TareMathTest {
         val tare = -500.0
         val gross = -100.0
         assertFailsWith(
-            exceptionClass = DomainError.InvalidInputs::class,
+            exceptionClass = DomainError.NegativeWeight::class,
             block = { calculateNetWeight(tare, gross) }
         )
         assertFailsWith(
-            exceptionClass = DomainError.InvalidInputs::class,
+            exceptionClass = DomainError.NegativeWeight::class,
             block = { calculateNetWeight(tare, 0.0) }
         )
         assertFailsWith(
-            exceptionClass = DomainError.InvalidInputs::class,
+            exceptionClass = DomainError.NegativeWeight::class,
             block = { calculateNetWeight(0.0, gross) }
         )
     }
@@ -81,11 +81,11 @@ class TareMathTest {
         val zeroServings = 0.0
         val negativeServings = -1.0
         assertFailsWith(
-            exceptionClass = DomainError.InvalidInputs::class,
+            exceptionClass = DomainError.ZeroOrNegativeServings::class,
             block = { calculateServingWeight(net, zeroServings) }
         )
         assertFailsWith(
-            exceptionClass = DomainError.InvalidInputs::class,
+            exceptionClass = DomainError.ZeroOrNegativeServings::class,
             block = { calculateServingWeight(net, negativeServings) }
         )
     }
