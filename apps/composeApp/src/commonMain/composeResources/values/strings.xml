@@ -1,0 +1,5 @@
+<resources>
+    <string name="error_gross_less_than_tare">Gross weight can't be less than tare</string>
+    <string name="error_negative_weight">Negative weights are not allowed</string>
+    <string name="error_zero_or_negative_servings">Serving count can't be 0 or negative</string>
+</resources>

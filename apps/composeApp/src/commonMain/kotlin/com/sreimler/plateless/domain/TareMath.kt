@@ -9,8 +9,8 @@ package com.sreimler.plateless.domain
 fun calculateNetWeight(tareWeight: Double, grossWeight: Double): Double {
     // Validate inputs
     when {
-        grossWeight < 0 || tareWeight < 0 -> throw DomainError.NegativeWeight
-        grossWeight < tareWeight -> throw DomainError.GrossWeightLessThanTare
+        grossWeight < 0 || tareWeight < 0 -> throw AppError.NegativeWeight
+        grossWeight < tareWeight -> throw AppError.GrossWeightLessThanTare
     }
 
     return grossWeight - tareWeight
@@ -25,7 +25,7 @@ fun calculateNetWeight(tareWeight: Double, grossWeight: Double): Double {
 fun calculateServingWeight(netWeight: Double, servings: Double): Double {
     // Validate inputs
     when {
-        servings <= 0 -> throw DomainError.ZeroOrNegativeServings
+        servings <= 0.0 -> throw AppError.ZeroOrNegativeServings
     }
 
     return netWeight / servings
