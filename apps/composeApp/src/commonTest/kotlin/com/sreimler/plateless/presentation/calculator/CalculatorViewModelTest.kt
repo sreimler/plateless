@@ -124,11 +124,11 @@ class CalculatorViewModelTest {
         assertEquals(0.0, currentState.activeContainer.tareWeight)
 
         // Select container
-        viewModel.selectContainer(containerA)
+        viewModel.onSelectContainer(containerA)
         assertEquals(containerA, viewModel.state.value.activeContainer)
 
         // Select a different container to verify successful consecutive update
-        viewModel.selectContainer(containerB)
+        viewModel.onSelectContainer(containerB)
         assertEquals(containerB, viewModel.state.value.activeContainer)
     }
 

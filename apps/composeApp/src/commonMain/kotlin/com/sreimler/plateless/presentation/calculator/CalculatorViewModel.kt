@@ -86,7 +86,7 @@ class CalculatorViewModel : ViewModel() {
      * Sets the selected [Container] as active in the [state] and triggers a calculation update.
      * @param container The container to be selected.
      */
-    fun selectContainer(container: Container) {
+    fun onSelectContainer(container: Container) {
         // Load details of stored container
         _state.update { it.copy(activeContainer = container) }
         updateCalculation()
@@ -95,7 +95,7 @@ class CalculatorViewModel : ViewModel() {
     /**
      * Creates or updates the currently active container in the repository.
      */
-    fun onSaveContainer() {
+    fun onSaveContainer(name: String, tareWeight: Double) {
         // TODO: define user experience for saving a new container
         // TODO: save in repository
     }
@@ -150,7 +150,7 @@ class CalculatorViewModel : ViewModel() {
         val currentState = state.value
         val currentVersion = currentState.activeContainer
         val savedVersion = currentState.savedContainerList.find { it.id == currentState.activeContainer.id }
-        return savedVersion?.let { it != currentVersion } ?: true
+        return savedVersion?.let { it != currentVersion } ?: (currentVersion.tareWeight != 0.0)
     }
 
     /**
