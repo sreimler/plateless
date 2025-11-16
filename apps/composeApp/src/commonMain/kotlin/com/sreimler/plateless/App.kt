@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -19,7 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sreimler.plateless.presentation.Screen
 import com.sreimler.plateless.presentation.calculator.CalculatorScreenRoot
 import com.sreimler.plateless.presentation.calculator.CalculatorViewModel
@@ -51,10 +54,16 @@ fun App() {
                                     Res.string.app_icon_description,
                                     Res.string.app_name
                                 ),
-                                colorFilter = ColorFilter.tint(AppGreen)
+                                colorFilter = ColorFilter.tint(AppGreen),
+                                modifier = Modifier.size(32.dp)
                             )
                             Spacer(Modifier.width(8.dp))
-                            Text(stringResource(Res.string.app_name))
+                            Text(
+                                text = stringResource(Res.string.app_name).uppercase(),
+                                fontSize = 26.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = AppGreen
+                            )
                         }
                     }
                 )
