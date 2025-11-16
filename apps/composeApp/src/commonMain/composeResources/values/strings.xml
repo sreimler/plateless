@@ -1,4 +1,6 @@
 <resources>
+    <string name="app_name">Plateless</string>
+    <string name="app_icon_description">%1$s icon</string>
     <string name="error">Error</string>
     <string name="error_gross_less_than_tare">Gross weight can't be less than tare</string>
     <string name="error_negative_weight">Negative weights are not allowed</string>
@@ -13,4 +15,7 @@
     <string name="servings">Servings</string>
     <string name="save">Save</string>
     <string name="result_string">%1$d %2$s</string>
+    <string name="calculator">Calculator</string>
+    <string name="containers">Containers</string>
+    <string name="settings">Settings</string>
 </resources>

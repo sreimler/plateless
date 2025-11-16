@@ -186,7 +186,6 @@ fun ContainerDropdown(
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
 
-
     Row(verticalAlignment = Alignment.CenterVertically) {
         Box(modifier = Modifier.weight(1f)) {
             // Container name and dropdown trigger
@@ -251,7 +250,7 @@ fun ContainerDropdown(
             colors = ButtonColors(
                 containerColor = LightGreen,
                 contentColor = Color.Black,
-                disabledContainerColor = LightGreen,
+                disabledContainerColor = Color.White,
                 disabledContentColor = VeryLightGray
             ),
             shape = RoundedCornerShape(8.dp),
@@ -296,6 +295,7 @@ fun CalculatorScreenPreview() {
             onTareWeightChanged = {},
             onGrossWeightChanged = {},
             onServingsChanged = {},
+            modifier = Modifier.padding(all = 16.dp)
         )
     }
 }

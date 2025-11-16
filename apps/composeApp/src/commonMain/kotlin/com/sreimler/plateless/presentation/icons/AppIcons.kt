@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 
 object AppIcons {
 
-    val LauncherIcon: ImageVector
+    val Burger: ImageVector
         get() {
             if (_LauncherIcon != null) {
                 return _LauncherIcon!!
@@ -406,7 +406,7 @@ object AppIcons {
 
     private var _Settings: ImageVector? = null
 
-    val Calculator: ImageVector
+    val Calculate: ImageVector
         get() {
             if (_Calculator != null) {
                 return _Calculator!!
