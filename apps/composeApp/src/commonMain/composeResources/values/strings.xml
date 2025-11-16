@@ -1,5 +1,16 @@
 <resources>
+    <string name="error">Error</string>
     <string name="error_gross_less_than_tare">Gross weight can't be less than tare</string>
     <string name="error_negative_weight">Negative weights are not allowed</string>
     <string name="error_zero_or_negative_servings">Serving count can't be 0 or negative</string>
+    <string name="container_list">Container list</string>
+    <string name="new_container">New Container</string>
+    <string name="net_weight">Net Weight</string>
+    <string name="weight_per_serving">Weight / Serving</string>
+    <string name="tare_weight">Tare Weight</string>
+    <string name="gross_weight">Gross Weight</string>
+    <string name="unit_grams">g</string>
+    <string name="servings">Servings</string>
+    <string name="save">Save</string>
+    <string name="result_string">%1$d %2$s</string>
 </resources>

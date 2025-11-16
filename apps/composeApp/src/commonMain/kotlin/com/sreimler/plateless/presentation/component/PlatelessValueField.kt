@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.sreimler.plateless.presentation.UiText
 import com.sreimler.plateless.presentation.theme.VeryLightGray
 import com.sreimler.plateless.presentation.theme.VeryLightGreen
 
@@ -21,7 +22,7 @@ fun PlatelessValueField(
     modifier: Modifier = Modifier,
     value: Double = 0.0,
     onValueChange: (Double) -> Unit,
-    unit: String = ""
+    unit: UiText? = null
 ) {
     OutlinedTextField(
         value = if (value % 1.0 == 0.0) value.toInt().toString() else value.toString(),
@@ -36,7 +37,7 @@ fun PlatelessValueField(
                 modifier = Modifier.size(24.dp)
             )
         },
-        suffix = { Text(unit) },
+        suffix = { unit?.let { Text(unit.asString()) } },
         singleLine = true,
         modifier = modifier.fillMaxWidth(),
         colors = OutlinedTextFieldDefaults.colors(

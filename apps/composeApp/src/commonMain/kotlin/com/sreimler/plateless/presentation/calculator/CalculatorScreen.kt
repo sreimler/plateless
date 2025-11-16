@@ -43,7 +43,20 @@ import com.sreimler.plateless.presentation.theme.LightGreen
 import com.sreimler.plateless.presentation.theme.LightRed
 import com.sreimler.plateless.presentation.theme.VeryLightGray
 import com.sreimler.plateless.presentation.theme.VeryLightGreen
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import plateless.composeapp.generated.resources.Res
+import plateless.composeapp.generated.resources.container_list
+import plateless.composeapp.generated.resources.error
+import plateless.composeapp.generated.resources.error_gross_less_than_tare
+import plateless.composeapp.generated.resources.gross_weight
+import plateless.composeapp.generated.resources.net_weight
+import plateless.composeapp.generated.resources.new_container
+import plateless.composeapp.generated.resources.result_string
+import plateless.composeapp.generated.resources.save
+import plateless.composeapp.generated.resources.servings
+import plateless.composeapp.generated.resources.tare_weight
+import plateless.composeapp.generated.resources.weight_per_serving
 import kotlin.uuid.ExperimentalUuidApi
 
 @Composable
@@ -89,27 +102,27 @@ fun CalculatorScreen(
 
         // Tare Weight
         PlatelessValueField(
-            label = "Tare Weight",
+            label = stringResource(Res.string.tare_weight),
             value = state.activeContainer.tareWeight,
             onValueChange = onTareWeightChanged,
             leadingIcon = AppIcons.Scale,
-            unit = "g"
+            unit = state.unit
         )
         Spacer(Modifier.height(16.dp))
 
         // Gross Weight
         PlatelessValueField(
-            label = "Gross Weight",
+            label = stringResource(Res.string.gross_weight),
             value = state.grossWeight,
             onValueChange = onGrossWeightChanged,
             leadingIcon = AppIcons.ForkSpoon,
-            unit = "g"
+            unit = state.unit
         )
         Spacer(Modifier.height(16.dp))
 
         // Servings
         PlatelessValueField(
-            label = "Servings",
+            label = stringResource(Res.string.servings),
             value = state.servings,
             onValueChange = onServingsChanged,
             leadingIcon = AppIcons.People
@@ -124,9 +137,19 @@ fun CalculatorScreen(
 
         // Calculation Results
         Row {
-            ResultBox("Net Weight", state.netWeight, "g", modifier = Modifier.weight(1f))
+            ResultBox(
+                stringResource(Res.string.net_weight),
+                state.netWeight,
+                state.unit,
+                modifier = Modifier.weight(1f)
+            )
             Spacer(Modifier.width(16.dp))
-            ResultBox("Weight / Serving", state.servingWeight, "g", modifier = Modifier.weight(1f))
+            ResultBox(
+                stringResource(Res.string.weight_per_serving),
+                state.servingWeight,
+                state.unit,
+                modifier = Modifier.weight(1f)
+            )
         }
     }
 }
@@ -143,7 +166,7 @@ fun ErrorMessage(message: String, modifier: Modifier = Modifier) {
     ) {
         Icon(
             imageVector = AppIcons.Error,
-            contentDescription = "Error",
+            contentDescription = stringResource(Res.string.error),
             tint = DarkRed,
             modifier = Modifier.height(16.dp)
         )
@@ -164,92 +187,95 @@ fun ContainerDropdown(
     var menuExpanded by remember { mutableStateOf(false) }
 
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(modifier = Modifier.weight(1f)) {
-                // Container name and dropdown trigger
-                Row(
-                    modifier = Modifier.fillMaxWidth().clickable(enabled = containers.isNotEmpty()) {
-                        menuExpanded = !menuExpanded
-                    },
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    // TODO: enable later when icons have been implemented
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Box(modifier = Modifier.weight(1f)) {
+            // Container name and dropdown trigger
+            Row(
+                modifier = Modifier.fillMaxWidth().clickable(enabled = containers.isNotEmpty()) {
+                    menuExpanded = !menuExpanded
+                },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // TODO: enable later when icons have been implemented
 //                    Icon(imageVector = AppIcons.RiceBowl, contentDescription = activeContainer.name)
 //                    Spacer(Modifier.width(8.dp))
-                    if (activeContainer.name.isEmpty()) {
-                        Text(
-                            text = "New Container",
-                            modifier = Modifier.weight(1f),
-                            color = VeryLightGray
-                        )
-                    } else {
-                        Text(
-                            text = activeContainer.name,
-                            modifier = Modifier.weight(1f),
-                            color = Color.Black
-                        )
-                    }
-
-                    if (containers.isNotEmpty()) {
-                        Icon(AppIcons.ArrowDropdown, contentDescription = "More options")
-                    }
+                if (activeContainer.name.isEmpty()) {
+                    Text(
+                        text = stringResource(Res.string.new_container),
+                        modifier = Modifier.weight(1f),
+                        color = VeryLightGray
+                    )
+                } else {
+                    Text(
+                        text = activeContainer.name,
+                        modifier = Modifier.weight(1f),
+                        color = Color.Black
+                    )
                 }
 
-                DropdownMenu(
-                    expanded = menuExpanded,
-                    onDismissRequest = { menuExpanded = false },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    containers.forEach { container ->
-                        DropdownMenuItem(
-                            text = { Text(container.name) },
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = AppIcons.RiceBowl,
-                                    contentDescription = container.name
-                                )
-                            },
-                            onClick = {
-                                menuExpanded = false
-                                onContainerSelected(container)
-                            }
-                        )
-                    }
+                if (containers.isNotEmpty()) {
+                    Icon(AppIcons.ArrowDropdown, contentDescription = stringResource(Res.string.container_list))
                 }
             }
 
-            Spacer(Modifier.width(16.dp))
-
-            // Save button aligned to the end
-            Button(
-                // TODO: specify flows for saving new and updating existing containers
-                // new containers should open a dialog to enter a name
-                onClick = { onSaveContainer("", 0.0) }, enabled = hasUnsavedChanges,
-                colors = ButtonColors(
-                    containerColor = LightGreen,
-                    contentColor = Color.Black,
-                    disabledContainerColor = LightGreen,
-                    disabledContentColor = VeryLightGray
-                ),
-                shape = RoundedCornerShape(8.dp),
-                contentPadding = PaddingValues(horizontal = 8.dp)
+            DropdownMenu(
+                expanded = menuExpanded,
+                onDismissRequest = { menuExpanded = false },
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(imageVector = AppIcons.Save, contentDescription = "Save")
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("Save", modifier)
+                containers.forEach { container ->
+                    DropdownMenuItem(
+                        text = { Text(container.name) },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = AppIcons.RiceBowl,
+                                contentDescription = container.name
+                            )
+                        },
+                        onClick = {
+                            menuExpanded = false
+                            onContainerSelected(container)
+                        }
+                    )
                 }
             }
         }
 
+        Spacer(Modifier.width(16.dp))
+
+        // Save button aligned to the end
+        Button(
+            // TODO: specify flows for saving new and updating existing containers
+            // new containers should open a dialog to enter a name
+            onClick = { onSaveContainer("", 0.0) }, enabled = hasUnsavedChanges,
+            colors = ButtonColors(
+                containerColor = LightGreen,
+                contentColor = Color.Black,
+                disabledContainerColor = LightGreen,
+                disabledContentColor = VeryLightGray
+            ),
+            shape = RoundedCornerShape(8.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(imageVector = AppIcons.Save, contentDescription = stringResource(Res.string.save))
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(stringResource(Res.string.save), modifier)
+            }
+        }
+    }
+
 }
 
 @Composable
-fun ResultBox(title: String, value: Double, unit: String, modifier: Modifier = Modifier) {
-    Column(modifier = modifier.background(VeryLightGreen, shape = RoundedCornerShape(16.dp)).padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+fun ResultBox(title: String, value: Double, unit: UiText, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.background(VeryLightGreen, shape = RoundedCornerShape(16.dp)).padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(title, fontSize = 14.sp)
         Spacer(Modifier.height(8.dp))
-        Text("${value.toInt()} $unit", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+        Text(stringResource(Res.string.result_string, value.toInt(), unit.asString()), fontSize = 22.sp, fontWeight = FontWeight.Bold)
     }
 }
 
@@ -259,14 +285,14 @@ fun ResultBox(title: String, value: Double, unit: String, modifier: Modifier = M
 fun CalculatorScreenPreview() {
     val state = CalculatorState(
         activeContainer = Container(),
-        errors = listOf(UiText.DynamicString("Gross weight must be greater than tare weight."))
+        errors = listOf(UiText.ErrorResourceString(Res.string.error_gross_less_than_tare))
     )
 
     MaterialTheme {
         CalculatorScreen(
             state = state,
             onContainerSelected = {},
-            onSaveContainer = { _,_ -> },
+            onSaveContainer = { _, _ -> },
             onTareWeightChanged = {},
             onGrossWeightChanged = {},
             onServingsChanged = {},
