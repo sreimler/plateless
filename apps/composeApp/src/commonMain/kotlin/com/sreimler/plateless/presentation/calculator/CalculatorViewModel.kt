@@ -1,7 +1,7 @@
 package com.sreimler.plateless.presentation.calculator
 
 import androidx.lifecycle.ViewModel
-import com.sreimler.plateless.domain.AppError
+import com.sreimler.plateless.domain.AppResult
 import com.sreimler.plateless.domain.Container
 import com.sreimler.plateless.domain.calculateNetWeight
 import com.sreimler.plateless.domain.calculateServingWeight
@@ -160,23 +160,40 @@ class CalculatorViewModel : ViewModel() {
         // Check for required gross weight before calculating
         if (state.value.grossWeight == 0.0) return
 
-        try {
-            val currentState = state.value
-            val netWeight = calculateNetWeight(currentState.activeContainer.tareWeight, currentState.grossWeight)
-            val servingWeight = calculateServingWeight(netWeight, currentState.servings)
+        val currentState = state.value
 
-            _state.update {
-                it.copy(
-                    netWeight = netWeight,
-                    servingWeight = servingWeight,
-                    errors = emptyList()
-                )
+        // Calculate net weight, return early if error
+        val netWeight = when (val result = calculateNetWeight(currentState.activeContainer.tareWeight, currentState.grossWeight)) {
+                is AppResult.Failure -> {
+                    _state.update {
+                        // Append new error to list of existing error UiTexts, if any
+                        it.copy(errors = it.errors + result.error.toUiText())
+                    }
+                    return
+                }
+
+                is AppResult.Success -> result.value
             }
-        } catch (e: AppError) {
-            _state.update {
-                // Append new error to list of existing error UiTexts, if any
-                it.copy(errors = it.errors + e.toUiText())
+
+        // Calculate serving weight, return early if error
+        val servingWeight = when (val result = calculateServingWeight(netWeight, currentState.servings)) {
+            is AppResult.Failure -> {
+                _state.update {
+                    // Append new error to list of existing error UiTexts, if any
+                    it.copy(errors = it.errors + result.error.toUiText())
+                }
+                return
             }
+
+            is AppResult.Success -> result.value
+        }
+
+        _state.update {
+            it.copy(
+                netWeight = netWeight,
+                servingWeight = servingWeight,
+                errors = emptyList()
+            )
         }
     }
 }

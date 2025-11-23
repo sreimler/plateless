@@ -3,8 +3,8 @@ package com.sreimler.plateless.domain
 /**
  * Sealed error class containing all error types of the app.
  */
-sealed class AppError : Throwable() {
-    object GrossWeightLessThanTare : AppError()
-    object NegativeWeight : AppError()
-    object ZeroOrNegativeServings : AppError()
+sealed class AppError {
+    data object GrossWeightLessThanTare : AppError()
+    data object NegativeWeight : AppError()
+    data object ZeroOrNegativeServings : AppError()
 }

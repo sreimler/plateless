@@ -10,7 +10,7 @@ import plateless.composeapp.generated.resources.error_zero_or_negative_servings
  * Utility function that converts an [AppError] to a [UiText] instance with a corresponding string resource attached.
  */
 fun AppError.toUiText(): UiText = when (this) {
-    AppError.GrossWeightLessThanTare -> UiText.ErrorResourceString(Res.string.error_gross_less_than_tare, this)
-    AppError.NegativeWeight -> UiText.ErrorResourceString(Res.string.error_negative_weight, this)
-    AppError.ZeroOrNegativeServings -> UiText.ErrorResourceString(Res.string.error_zero_or_negative_servings, this)
+    is AppError.GrossWeightLessThanTare -> UiText.ErrorResourceString(Res.string.error_gross_less_than_tare, this)
+    is AppError.NegativeWeight -> UiText.ErrorResourceString(Res.string.error_negative_weight, this)
+    is AppError.ZeroOrNegativeServings -> UiText.ErrorResourceString(Res.string.error_zero_or_negative_servings, this)
 }
