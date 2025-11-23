@@ -143,17 +143,6 @@ class CalculatorViewModel : ViewModel() {
     }
 
     /**
-     * Indicates if the current state of the active container is persisted in the repository.
-     * @return `true` if unsaved changes, `false` otherwise.
-     */
-    fun hasUnsavedChanges(): Boolean {
-        val currentState = state.value
-        val currentVersion = currentState.activeContainer
-        val savedVersion = currentState.savedContainerList.find { it.id == currentState.activeContainer.id }
-        return savedVersion?.let { it != currentVersion } ?: (currentVersion.tareWeight != 0.0)
-    }
-
-    /**
      * Updates the calculation of net weight and weight per serving, given the current values in [state].
      */
     private fun updateCalculation() {

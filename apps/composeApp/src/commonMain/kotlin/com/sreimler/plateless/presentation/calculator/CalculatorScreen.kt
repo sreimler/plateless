@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sreimler.plateless.domain.Container
 import com.sreimler.plateless.presentation.UiText
 import com.sreimler.plateless.presentation.component.PlatelessValueField
@@ -73,8 +74,7 @@ fun CalculatorScreenRoot(
         onTareWeightChanged = viewModel::onTareWeightChanged,
         onGrossWeightChanged = viewModel::onGrossWeightChanged,
         onServingsChanged = viewModel::onServingsChanged,
-        modifier = modifier,
-        hasUnsavedChanges = viewModel.hasUnsavedChanges()
+        modifier = modifier
     )
 }
 
@@ -86,15 +86,14 @@ fun CalculatorScreen(
     onTareWeightChanged: (Double) -> Unit,
     onGrossWeightChanged: (Double) -> Unit,
     onServingsChanged: (Double) -> Unit,
-    modifier: Modifier = Modifier,
-    hasUnsavedChanges: Boolean = false
+    modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
         // Container dropdown and save button
         ContainerDropdown(
             activeContainer = state.activeContainer,
             containers = state.savedContainerList,
-            hasUnsavedChanges = hasUnsavedChanges,
+            hasUnsavedChanges = state.hasUnsavedChanges,
             onContainerSelected = onContainerSelected,
             onSaveContainer = onSaveContainer
         )

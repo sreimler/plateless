@@ -5,6 +5,7 @@ import com.sreimler.plateless.domain.Container
 import com.sreimler.plateless.presentation.UiText
 import plateless.composeapp.generated.resources.Res
 import plateless.composeapp.generated.resources.unit_grams
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * Represents the current state of the serving size calculator.
@@ -27,4 +28,10 @@ data class CalculatorState(
     val servingWeight: Double = 0.0,
     val unit: UiText = UiText.ResourceString(Res.string.unit_grams),
     val errors: List<UiText> = listOf()
-)
+) {
+    @OptIn(ExperimentalUuidApi::class)
+    val hasUnsavedChanges: Boolean = savedContainerList
+        .find { it.id == activeContainer.id }?.let { savedVersion ->
+            savedVersion != activeContainer
+        } ?: (activeContainer.tareWeight != 0.0)
+}
