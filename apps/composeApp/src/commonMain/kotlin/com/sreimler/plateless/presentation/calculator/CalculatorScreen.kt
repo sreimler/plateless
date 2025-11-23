@@ -61,7 +61,7 @@ import kotlin.uuid.ExperimentalUuidApi
 
 @Composable
 fun CalculatorScreenRoot(
-    viewModel: CalculatorViewModel,
+    viewModel: CalculatorViewModel = viewModel { CalculatorViewModel() },
     modifier: Modifier = Modifier
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()

@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sreimler.plateless.presentation.Screen
 import com.sreimler.plateless.presentation.calculator.CalculatorScreenRoot
-import com.sreimler.plateless.presentation.calculator.CalculatorViewModel
 import com.sreimler.plateless.presentation.icons.AppIcons
 import com.sreimler.plateless.presentation.theme.AppGreen
 import org.jetbrains.compose.resources.stringResource
@@ -40,8 +39,6 @@ import plateless.composeapp.generated.resources.calculator
 @Preview
 fun App() {
     MaterialTheme {
-        // TODO: add scaffold and navigation
-        // scaffold will also contain screen title and icon
         Scaffold(
             contentWindowInsets = WindowInsets.systemBars,
             topBar = {
@@ -82,7 +79,6 @@ fun App() {
             }
         ) { innerPadding ->
             CalculatorScreenRoot(
-                viewModel = CalculatorViewModel(),
                 modifier = Modifier.padding(innerPadding).padding(top = 32.dp).padding(horizontal = 16.dp)
             )
         }

@@ -24,6 +24,7 @@ fun PlatelessValueField(
     onValueChange: (Double) -> Unit,
     unit: UiText? = null
 ) {
+    // TODO: migrate to state based BasicTextField for better IME control
     OutlinedTextField(
         value = if (value % 1.0 == 0.0) value.toInt().toString() else value.toString(),
         onValueChange = { newValue ->
